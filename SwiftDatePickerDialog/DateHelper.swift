@@ -35,25 +35,25 @@ class DateHelper {
     }
     
     static func getTomorrow() -> String {
-        let calendar = NSCalendar.currentCalendar()
+        let calendar = Calendar.current
         return getNextDay(calendar, daysAfter: 1)
     }
     
-    static func getTomorrow(dateString: String) -> String {
-        let calendar = NSCalendar.currentCalendar()
-        let dateFormatter = NSDateFormatter()
+    static func getTomorrow(_ dateString: String) -> String {
+        let calendar = Calendar.current
+        let dateFormatter = DateFormatter()
         
         return getNextDayForGivenDate(calendar, dateFormatter: dateFormatter, daysAfter: 1, dateString: dateString)
     }
     
     static func getYesterday() -> String {
-        let calendar = NSCalendar.currentCalendar()
+        let calendar = Calendar.current
         return getPreviousDay(calendar, daysBefore: 1)
     }
     
-    static func getYesterday(dateString: String) -> String {
-        let calendar = NSCalendar.currentCalendar()
-        let dateFormatter = NSDateFormatter()
+    static func getYesterday(_ dateString: String) -> String {
+        let calendar = Calendar.current
+        let dateFormatter = DateFormatter()
         
         return getPreviousDayForGivenDate(calendar, dateFormatter: dateFormatter, daysBefore: 1, dateString: dateString)
     }
@@ -63,30 +63,30 @@ class DateHelper {
     }
     
     static func getNextMonth() -> String {
-        let calendar = NSCalendar.currentCalendar()
+        let calendar = Calendar.current
         return getNextMonth(calendar, monthsAfter: 1)
     }
     
-    static func getNextMonth(dateString: String) -> String {
-        let calendar = NSCalendar.currentCalendar()
-        let dateFormatter = NSDateFormatter()
+    static func getNextMonth(_ dateString: String) -> String {
+        let calendar = Calendar.current
+        let dateFormatter = DateFormatter()
         
         return getNextMonthForGivenDate(calendar, dateFormatter: dateFormatter, monthsAfter: 1, dateString: dateString)
     }
     
     static func getLastMonth() -> String {
-        let calendar = NSCalendar.currentCalendar()
+        let calendar = Calendar.current
         return getPreviousMonth(calendar, monthsBefore: 1)
     }
     
     static func getLast6Month() -> String {
-        let calendar = NSCalendar.currentCalendar()
+        let calendar = Calendar.current
         return getPreviousMonth(calendar, monthsBefore: 5)
     }
     
     static func getLast6MonthList() -> [String] {
         var last6Months = [String]()
-        let calendar = NSCalendar.currentCalendar()
+        let calendar = Calendar.current
         for i in (0...5) {
             let month = getPreviousMonth(calendar, monthsBefore: i)
             last6Months.append(month)
@@ -95,13 +95,13 @@ class DateHelper {
     }
     
     static func getLast4Month() -> String {
-        let calendar = NSCalendar.currentCalendar()
+        let calendar = Calendar.current
         return getPreviousMonth(calendar, monthsBefore: 3)
     }
     
     static func getLast4MonthList() -> [String] {
         var last4Months = [String]()
-        let calendar = NSCalendar.currentCalendar()
+        let calendar = Calendar.current
         for i in (0...3) {
             let month = getPreviousMonth(calendar, monthsBefore: i)
             last4Months.append(month)
@@ -111,7 +111,7 @@ class DateHelper {
     
     static func getLast4MonthDictionary() -> [(name: String, translated: String)] {
         var last4Months = [(name: String, translated: String)]()
-        let calendar = NSCalendar.currentCalendar()
+        let calendar = Calendar.current
         for i in (0...3) {
             let month = getPreviousMonth(calendar, monthsBefore: i)
             last4Months.append(name: month, translated: month)
@@ -120,109 +120,109 @@ class DateHelper {
     }
     
     static func getFirstDateOfCurrentMonth() -> String {
-        let calendar = NSCalendar.currentCalendar()
-        let dateFormatter = NSDateFormatter()
+        let calendar = Calendar.current
+        let dateFormatter = DateFormatter()
         let startOfMonth = getFirstDayOfMonth(calendar, dateFormatter: dateFormatter)
         
-        return dateFormatter.stringFromDate(startOfMonth)
+        return dateFormatter.string(from: startOfMonth)
     }
     
     static func getLastDateOfCurrentMonth() -> String {
-        let calendar = NSCalendar.currentCalendar()
-        let dateFormatter = NSDateFormatter()
+        let calendar = Calendar.current
+        let dateFormatter = DateFormatter()
         let startOfMonth = getFirstDayOfMonth(calendar, dateFormatter: dateFormatter)
         let endOfMonth = getLastDayOfMonth(calendar, startOfMonth: startOfMonth)
         
-        return dateFormatter.stringFromDate(endOfMonth)
+        return dateFormatter.string(from: endOfMonth)
     }
     
-    static func getFirstDateOfGivenMonth(dateString: String) -> String {
-        let calendar = NSCalendar.currentCalendar()
-        let dateFormatter = NSDateFormatter()
+    static func getFirstDateOfGivenMonth(_ dateString: String) -> String {
+        let calendar = Calendar.current
+        let dateFormatter = DateFormatter()
         let startOfMonth = getFirstDayOfMonth(calendar, dateFormatter: dateFormatter, dateString: dateString)
         
-        return dateFormatter.stringFromDate(startOfMonth)
+        return dateFormatter.string(from: startOfMonth)
     }
     
-    static func getLastDateOfGivenMonth(dateString: String) -> String {
-        let calendar = NSCalendar.currentCalendar()
-        let dateFormatter = NSDateFormatter()
+    static func getLastDateOfGivenMonth(_ dateString: String) -> String {
+        let calendar = Calendar.current
+        let dateFormatter = DateFormatter()
         let startOfMonth = getFirstDayOfMonth(calendar, dateFormatter: dateFormatter, dateString: dateString)
         let endOfMonth = getLastDayOfMonth(calendar, startOfMonth: startOfMonth)
         
-        return dateFormatter.stringFromDate(endOfMonth)
+        return dateFormatter.string(from: endOfMonth)
     }
     
     static func getFirstDayOfCurrentMonth() -> String {
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        dateFormatter.timeZone = NSTimeZone(name: "UTC")
+        dateFormatter.timeZone = TimeZone(identifier: "UTC")
         
-        let date = NSDate()
-        let calendar = NSCalendar.currentCalendar()
-        let range = calendar.rangeOfUnit(.Day, inUnit: .Month, forDate: date)
+        let date = Date()
+        let calendar = Calendar.current
+        let range = (calendar as NSCalendar).range(of: .day, in: .month, for: date)
         
         return String(range.location)
     }
     
     static func getLastDayOfCurrentMonth() -> String {
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        dateFormatter.timeZone = NSTimeZone(name: "UTC")
+        dateFormatter.timeZone = TimeZone(identifier: "UTC")
         
-        let date = NSDate()
-        let calendar = NSCalendar.currentCalendar()
-        let range = calendar.rangeOfUnit(.Day, inUnit: .Month, forDate: date)
+        let date = Date()
+        let calendar = Calendar.current
+        let range = (calendar as NSCalendar).range(of: .day, in: .month, for: date)
         
         return String(range.length)
     }
     
-    static func getFirstDayOfGivenMonth(dateString: String) -> String {
-        let dateFormatter = NSDateFormatter()
+    static func getFirstDayOfGivenMonth(_ dateString: String) -> String {
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        dateFormatter.timeZone = NSTimeZone(name: "UTC")
+        dateFormatter.timeZone = TimeZone(identifier: "UTC")
         
-        let date = dateFormatter.dateFromString(dateString)
-        let calendar = NSCalendar.currentCalendar()
-        let range = calendar.rangeOfUnit(.Day, inUnit: .Month, forDate: date!)
+        let date = dateFormatter.date(from: dateString)
+        let calendar = Calendar.current
+        let range = (calendar as NSCalendar).range(of: .day, in: .month, for: date!)
         
         return String(range.location)
     }
     
-    static func getLastDayOfGivenMonth(dateString: String) -> String {
-        let dateFormatter = NSDateFormatter()
+    static func getLastDayOfGivenMonth(_ dateString: String) -> String {
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        dateFormatter.timeZone = NSTimeZone(name: "UTC")
+        dateFormatter.timeZone = TimeZone(identifier: "UTC")
         
-        let date = dateFormatter.dateFromString(dateString)
-        let calendar = NSCalendar.currentCalendar()
-        let range = calendar.rangeOfUnit(.Day, inUnit: .Month, forDate: date!)
+        let date = dateFormatter.date(from: dateString)
+        let calendar = Calendar.current
+        let range = (calendar as NSCalendar).range(of: .day, in: .month, for: date!)
         
         return String(range.length)
     }
     
-    static func getNumberOfDaysBetweenDates(dateFrom: String, dateTo: String) -> Int {
-        let dateFormatter = NSDateFormatter()
+    static func getNumberOfDaysBetweenDates(_ dateFrom: String, dateTo: String) -> Int {
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        dateFormatter.timeZone = NSTimeZone(name: "UTC")
+        dateFormatter.timeZone = TimeZone(identifier: "UTC")
         
-        let startDate = dateFormatter.dateFromString(dateFrom)
-        let endDate = dateFormatter.dateFromString(dateTo)
+        let startDate = dateFormatter.date(from: dateFrom)
+        let endDate = dateFormatter.date(from: dateTo)
         
-        let calendar = NSCalendar.currentCalendar()
-        let components = calendar.components(.Day, fromDate: startDate!, toDate: endDate!, options: [])
+        let calendar = Calendar.current
+        let components = (calendar as NSCalendar).components(.day, from: startDate!, to: endDate!, options: [])
         
-        return components.day + 1
+        return components.day! + 1
     }
     
-    static func isValidDateFormat(string: String, dayProvided: Bool) -> Bool {
+    static func isValidDateFormat(_ string: String, dayProvided: Bool) -> Bool {
         var pattern = "^(19|20)\\d\\d-(0[1-9]|1[012])$" // for format "yyyy-MM"
         if dayProvided {
             pattern = "^(19|20)\\d\\d-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$" // for format "yyyy-MM-dd"
         }
         
-        if let regex = try? NSRegularExpression(pattern: pattern, options: NSRegularExpressionOptions(rawValue: 0)) {
-            let matched = regex.matchesInString(string, options: [], range: NSMakeRange(0, string.characters.count))
+        if let regex = try? NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options(rawValue: 0)) {
+            let matched = regex.matches(in: string, options: [], range: NSMakeRange(0, string.characters.count))
             if matched.count > 0 {
                 return true
             } else {
@@ -232,129 +232,114 @@ class DateHelper {
         return false
     }
     
-    static func getNextDayForGivenDate(calendar: NSCalendar, daysAfter: Int, dateObject: NSDate) -> NSDate {
-        let components = calendar.components([.Year, .Month, .Day, .Hour, .Minute, .Second], fromDate: dateObject)
-        components.day += daysAfter
-        return calendar.dateFromComponents(components)!
+    static func getNextDayForGivenDate(daysAfter: Int, dateObject: Date) -> Date {
+        let calendar = Calendar.current
+        let dateCalculated = calendar.date(byAdding: .day, value: daysAfter, to: dateObject)
+        
+        return dateCalculated!
     }
     
-    static func getDateObjectForGivenDateString(dateString: String) -> NSDate {
-        let calendar = NSCalendar.currentCalendar()
-        let dateFormatter = NSDateFormatter()
+    static func getDateObjectForGivenDateString(_ dateString: String) -> Date {
+        let calendar = Calendar.current
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        let date = dateFormatter.dateFromString(dateString)
-        let components = calendar.components([.Year, .Month, .Day, .Hour, .Minute, .Second], fromDate: date!)
-        return calendar.dateFromComponents(components)!
+        let date = dateFormatter.date(from: dateString)
+        let components = (calendar as NSCalendar).components([.year, .month, .day, .hour, .minute, .second], from: date!)
+        return calendar.date(from: components)!
     }
     
-    static func getDateStringForGivenDateObject(dateObject: NSDate, format: String) -> String {
-        let dateFormatter = NSDateFormatter()
+    static func getDateStringForGivenDateObject(_ dateObject: Date, format: String) -> String {
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
-        return dateFormatter.stringFromDate(dateObject)
+        return dateFormatter.string(from: dateObject)
     }
     
-    private static func getDateForFormat(format: String) -> String {
-        let dateFormatter = NSDateFormatter()
+    private static func createDateFormatter(dateFormat: String) -> DateFormatter {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = dateFormat
+        
+        return dateFormatter
+    }
+    
+    private static func getDateForFormat(_ format: String) -> String {
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
-        dateFormatter.timeZone = NSTimeZone(name: "UTC")
-        return dateFormatter.stringFromDate(NSDate())
+        dateFormatter.timeZone = TimeZone(identifier: "UTC")
+        return dateFormatter.string(from: Date())
     }
     
-    private static func getFirstDayOfMonth(calendar: NSCalendar, dateFormatter: NSDateFormatter) -> NSDate {
+    private static func getFirstDayOfMonth(_ calendar: Calendar, dateFormatter: DateFormatter) -> Date {
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        let date = NSDate()
-        let components = calendar.components([.Year, .Month], fromDate: date)
-        return calendar.dateFromComponents(components)!
+        let date = Date()
+        let components = (calendar as NSCalendar).components([.year, .month], from: date)
+        return calendar.date(from: components)!
     }
     
-    private static func getFirstDayOfMonth(calendar: NSCalendar, dateFormatter: NSDateFormatter, dateString: String) -> NSDate {
+    private static func getFirstDayOfMonth(_ calendar: Calendar, dateFormatter: DateFormatter, dateString: String) -> Date {
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        let date = dateFormatter.dateFromString(dateString)
-        let components = calendar.components([.Year, .Month], fromDate: date!)
-        return calendar.dateFromComponents(components)!
+        let date = dateFormatter.date(from: dateString)
+        let components = (calendar as NSCalendar).components([.year, .month], from: date!)
+        return calendar.date(from: components)!
     }
     
-    private static func getLastDayOfMonth(calendar: NSCalendar, startOfMonth: NSDate) -> NSDate {
-        let components2 = NSDateComponents()
+    private static func getLastDayOfMonth(_ calendar: Calendar, startOfMonth: Date) -> Date {
+        var components2 = DateComponents()
         components2.month = 1
         components2.day = -1
-        return calendar.dateByAddingComponents(components2, toDate: startOfMonth, options: [])!
+        return (calendar as NSCalendar).date(byAdding: components2, to: startOfMonth, options: [])!
     }
     
-    private static func getPreviousDay(calendar: NSCalendar, daysBefore: Int) -> String {
-        let components = calendar.components([.Year, .Month, .Day, .Hour, .Minute, .Second], fromDate: NSDate())
-        components.day -= daysBefore
-        let dateInTheMiddleOfPeriod = calendar.dateFromComponents(components)!
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        //dateFormatter.timeZone = NSTimeZone(name: "UTC")
-        return dateFormatter.stringFromDate(dateInTheMiddleOfPeriod)
+    private static func getPreviousDay(_ calendar: Calendar, daysBefore: Int) -> String {
+        let dateFormatter = createDateFormatter(dateFormat: "yyyy-MM-dd")
+        
+        let dateCalculated = calendar.date(byAdding: .day, value: 0-daysBefore, to: Date())
+        
+        return dateFormatter.string(from: dateCalculated!)
     }
     
-    private static func getPreviousDayForGivenDate(calendar: NSCalendar, dateFormatter: NSDateFormatter, daysBefore: Int, dateString: String) -> String {
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let date = dateFormatter.dateFromString(dateString)
-        let components = calendar.components([.Year, .Month, .Day, .Hour, .Minute, .Second], fromDate: date!)
-        components.day -= daysBefore
-        let dateInTheMiddleOfPeriod = calendar.dateFromComponents(components)!
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        //dateFormatter.timeZone = NSTimeZone(name: "UTC")
-        return dateFormatter.stringFromDate(dateInTheMiddleOfPeriod)
+    private static func getPreviousDayForGivenDate(_ calendar: Calendar, dateFormatter: DateFormatter, daysBefore: Int, dateString: String) -> String {
+        let date = dateFormatter.date(from: dateString)
+        let dateCalculated = calendar.date(byAdding: .day, value: 0-daysBefore, to: date!)
+        
+        return dateFormatter.string(from: dateCalculated!)
     }
     
-    private static func getPreviousMonth(calendar: NSCalendar, monthsBefore: Int) -> String {
-        let components = calendar.components([.Year, .Month, .Day, .Hour, .Minute, .Second], fromDate: NSDate())
-        components.month -= monthsBefore
-        let dateInTheMiddleOfPeriod = calendar.dateFromComponents(components)!
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM"
-        //dateFormatter.timeZone = NSTimeZone(name: "UTC")
-        return dateFormatter.stringFromDate(dateInTheMiddleOfPeriod)
+    private static func getPreviousMonth(_ calendar: Calendar, monthsBefore: Int) -> String {
+        let dateFormatter = createDateFormatter(dateFormat: "yyyy-MM")
+        
+        let dateCalculated = calendar.date(byAdding: .month, value: 0-monthsBefore, to: Date())
+        
+        return dateFormatter.string(from: dateCalculated!)
     }
     
-    private static func getNextDay(calendar: NSCalendar, daysAfter: Int) -> String {
-        let components = calendar.components([.Year, .Month, .Day, .Hour, .Minute, .Second], fromDate: NSDate())
-        components.day += daysAfter
-        let dateInTheMiddleOfPeriod = calendar.dateFromComponents(components)!
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        //dateFormatter.timeZone = NSTimeZone(name: "UTC")
-        return dateFormatter.stringFromDate(dateInTheMiddleOfPeriod)
+    private static func getNextDay(_ calendar: Calendar, daysAfter: Int) -> String {
+        let dateFormatter = createDateFormatter(dateFormat: "yyyy-MM-dd")
+        
+        let dateCalculated = calendar.date(byAdding: .day, value: daysAfter, to: Date())
+        
+        return dateFormatter.string(from: dateCalculated!)
     }
     
-    private static func getNextDayForGivenDate(calendar: NSCalendar, dateFormatter: NSDateFormatter, daysAfter: Int, dateString: String) -> String {
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let date = dateFormatter.dateFromString(dateString)
-        let components = calendar.components([.Year, .Month, .Day, .Hour, .Minute, .Second], fromDate: date!)
-        components.day += daysAfter
-        let dateInTheMiddleOfPeriod = calendar.dateFromComponents(components)!
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        //dateFormatter.timeZone = NSTimeZone(name: "UTC")
-        return dateFormatter.stringFromDate(dateInTheMiddleOfPeriod)
+    private static func getNextDayForGivenDate(_ calendar: Calendar, dateFormatter: DateFormatter, daysAfter: Int, dateString: String) -> String {
+        let date = dateFormatter.date(from: dateString)
+        let dateCalculated = calendar.date(byAdding: .day, value: daysAfter, to: date!)
+        
+        return dateFormatter.string(from: dateCalculated!)
     }
     
-    private static func getNextMonth(calendar: NSCalendar, monthsAfter: Int) -> String {
-        let components = calendar.components([.Year, .Month, .Day, .Hour, .Minute, .Second], fromDate: NSDate())
-        components.month += monthsAfter
-        let dateInTheMiddleOfPeriod = calendar.dateFromComponents(components)!
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM"
-        //dateFormatter.timeZone = NSTimeZone(name: "UTC")
-        return dateFormatter.stringFromDate(dateInTheMiddleOfPeriod)
+    private static func getNextMonth(_ calendar: Calendar, monthsAfter: Int) -> String {
+        let dateFormatter = createDateFormatter(dateFormat: "yyyy-MM")
+        
+        let dateCalculated = calendar.date(byAdding: .month, value: monthsAfter, to: Date())
+        
+        return dateFormatter.string(from: dateCalculated!)
     }
     
-    private static func getNextMonthForGivenDate(calendar: NSCalendar, dateFormatter: NSDateFormatter, monthsAfter: Int, dateString: String) -> String {
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let date = dateFormatter.dateFromString(dateString)
-        let components = calendar.components([.Year, .Month, .Day, .Hour, .Minute, .Second], fromDate: date!)
-        components.month += monthsAfter
-        let dateInTheMiddleOfPeriod = calendar.dateFromComponents(components)!
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM"
-        //dateFormatter.timeZone = NSTimeZone(name: "UTC")
-        return dateFormatter.stringFromDate(dateInTheMiddleOfPeriod)
+    private static func getNextMonthForGivenDate(_ calendar: Calendar, dateFormatter: DateFormatter, monthsAfter: Int, dateString: String) -> String {
+        let date = dateFormatter.date(from: dateString)
+        let dateCalculated = calendar.date(byAdding: .month, value: monthsAfter, to: date!)
+        
+        return dateFormatter.string(from: dateCalculated!)
     }
     
 }

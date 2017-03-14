@@ -13,11 +13,11 @@ class DatePickerDialogViewController: UIViewController {
     private let datePickerDialogViewHeight: CGFloat = 250.0
     private var datePickerDialogView: UIView!
     private let titleView = UIView()
-    private let titleLabel = UILabel(frame: CGRectMake(0, 0, 0, 0))
-    private let datePicker = UIDatePicker(frame: CGRectMake(0, 0, 0, 0))
+    private let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    private let datePicker = UIDatePicker(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     private let cancelButton = UIButton()
     private let okButton = UIButton()
-    private let stackView = UIStackView(frame: CGRectMake(0, 0, 0, 0))
+    private let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     private var selectedValue: String = DateHelper.getCurrentDate()
     //properties exposed to developer/user
     var titleDialog: String = ""
@@ -26,32 +26,32 @@ class DatePickerDialogViewController: UIViewController {
     var delegateDialogDatePicker: DialogDatePickerDelegate?
     
     deinit {
-        print("\(self.dynamicType) was deallocated")
+        print("\(type(of: self)) was deallocated")
     }
     
     override func viewDidLoad() {
-        print("\(self.dynamicType) did load")
+        print("\(type(of: self)) did load")
         super.viewDidLoad()
         
         showDatePickerDialogView()
     }
     
-    func okButtonAction(sender: UIButton!) {
+    func okButtonAction(_ sender: UIButton!) {
         print("Button tapped ok")
         self.delegateDialogDatePicker?.onDatePickerValueChange(self.componentName!, value: self.selectedValue)
-        self.dismissViewControllerAnimated(false, completion: nil)
+        self.dismiss(animated: false, completion: nil)
     }
     
-    func cancelButtonAction(sender: UIButton!) {
+    func cancelButtonAction(_ sender: UIButton!) {
         print("Button tapped cancel")
         //self.delegateDialogDatePicker?.onDatePickerValueChange(self.componentName!, value: self.selectedValue)
         self.delegateDialogDatePicker?.onDatePickerValueChange(self.componentName!, value: "")
-        self.dismissViewControllerAnimated(false, completion: nil)
+        self.dismiss(animated: false, completion: nil)
     }
     
-    func onDateChanged(sender: UIDatePicker) {
+    func onDateChanged(_ sender: UIDatePicker) {
         let dateSelected = DateHelper.getDateStringForGivenDateObject(sender.date, format: "yyyy-MM-dd")
-        print("\(self.dynamicType) onPickerValueChange")
+        print("\(type(of: self)) onPickerValueChange")
         print(dateSelected)
         
         selectedValue = dateSelected
@@ -68,53 +68,60 @@ class DatePickerDialogViewController: UIViewController {
         self.view.layoutIfNeeded()
     }
     
-    func createDatePickerDialogView() {
+    private func createDatePickerDialogView() {
         datePickerDialogView = UIView()
         datePickerDialogView.layer.borderWidth = 1
-        datePickerDialogView.layer.borderColor = UIColor(red:222/255.0, green:225/255.0, blue:227/255.0, alpha: 1.0).CGColor
+        datePickerDialogView.layer.borderColor = UIColor(red:222/255.0, green:225/255.0, blue:227/255.0, alpha: 1.0).cgColor
         datePickerDialogView.layer.cornerRadius = 8.0
         datePickerDialogView.clipsToBounds = true
-        datePickerDialogView.backgroundColor = UIColor.whiteColor()
+        datePickerDialogView.backgroundColor = UIColor.white
         
         datePickerDialogView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(datePickerDialogView)
         
-        datePickerDialogView.widthAnchor.constraintEqualToConstant(datePickerDialogViewWidth).active = true
-        datePickerDialogView.heightAnchor.constraintEqualToConstant(datePickerDialogViewHeight).active = true
-        datePickerDialogView.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
-        datePickerDialogView.centerYAnchor.constraintEqualToAnchor(view.centerYAnchor).active = true
+        datePickerDialogView.widthAnchor.constraint(equalToConstant: datePickerDialogViewWidth).isActive = true
+        datePickerDialogView.heightAnchor.constraint(equalToConstant: datePickerDialogViewHeight).isActive = true
+        datePickerDialogView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        datePickerDialogView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
     
-    func createTitleView() {
-        titleView.backgroundColor = UIColor.whiteColor()
+    private func createTitleView() {
+        titleView.backgroundColor = UIColor.white
         
         titleView.translatesAutoresizingMaskIntoConstraints = false
         self.datePickerDialogView.addSubview(titleView)
         
-        titleView.widthAnchor.constraintEqualToConstant(datePickerDialogViewWidth).active = true
-        titleView.heightAnchor.constraintEqualToConstant(30.0).active = true
-        titleView.centerXAnchor.constraintEqualToAnchor(self.datePickerDialogView.centerXAnchor).active = true
-        titleView.topAnchor.constraintEqualToAnchor(self.datePickerDialogView.topAnchor).active = true
+        titleView.widthAnchor.constraint(equalToConstant: datePickerDialogViewWidth).isActive = true
+        titleView.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+        titleView.centerXAnchor.constraint(equalTo: self.datePickerDialogView.centerXAnchor).isActive = true
+        titleView.topAnchor.constraint(equalTo: self.datePickerDialogView.topAnchor).isActive = true
     }
     
-    func createTitleLabel() {
+    private func createTitleLabel() {
         let title = titleDialog
-        titleLabel.font = UIFont.boldSystemFontOfSize(14.0)
+        titleLabel.numberOfLines = 2
+        titleLabel.lineBreakMode = .byTruncatingTail
+        titleLabel.adjustsFontSizeToFitWidth = true
+        titleLabel.minimumScaleFactor = 0.5
+        titleLabel.textAlignment = .center
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 14.0)
         titleLabel.text = title
         titleLabel.textColor = UIColor(red: 0.0, green: 122/255, blue: 1.0, alpha: 1)
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         self.titleView.addSubview(titleLabel)
         
-        titleLabel.centerXAnchor.constraintEqualToAnchor(titleView.centerXAnchor).active = true
-        titleLabel.centerYAnchor.constraintEqualToAnchor(titleView.centerYAnchor).active = true
+        titleLabel.widthAnchor.constraint(equalToConstant: datePickerDialogViewWidth-10).isActive = true // 10 is for padding, 5 on each side since we have centerX
+        titleLabel.centerXAnchor.constraint(equalTo: titleView.centerXAnchor).isActive = true
+        titleLabel.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
+        titleLabel.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
     }
     
-    func createDatePicker() {
+    private func createDatePicker() {
         //datePicker.timeZone = NSTimeZone.localTimeZone()
-        datePicker.datePickerMode = .Date
+        datePicker.datePickerMode = .date
         // add an event called when value is changed.
-        datePicker.addTarget(self, action: #selector(onDateChanged), forControlEvents: .ValueChanged)
+        datePicker.addTarget(self, action: #selector(onDateChanged), for: .valueChanged)
         
         if self.defaultDate != "" && DateHelper.isValidDateFormat(self.defaultDate, dayProvided: true) {
             self.selectedValue = self.defaultDate
@@ -125,35 +132,35 @@ class DatePickerDialogViewController: UIViewController {
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         self.datePickerDialogView.addSubview(datePicker)
         
-        datePicker.widthAnchor.constraintEqualToConstant(270.0).active = true
-        datePicker.heightAnchor.constraintEqualToConstant(216.0).active = true
-        datePicker.centerXAnchor.constraintEqualToAnchor(self.datePickerDialogView.centerXAnchor).active = true
-        datePicker.centerYAnchor.constraintEqualToAnchor(self.datePickerDialogView.centerYAnchor).active = true
+        datePicker.widthAnchor.constraint(equalToConstant: 270.0).isActive = true
+        datePicker.heightAnchor.constraint(equalToConstant: 216.0).isActive = true
+        datePicker.centerXAnchor.constraint(equalTo: self.datePickerDialogView.centerXAnchor).isActive = true
+        datePicker.centerYAnchor.constraint(equalTo: self.datePickerDialogView.centerYAnchor).isActive = true
     }
     
-    func createCancelButton() {
-        cancelButton.backgroundColor = UIColor.whiteColor()
-        cancelButton.addTarget(self, action: #selector(cancelButtonAction), forControlEvents: .TouchUpInside)
-        cancelButton.setTitle("Cancel", forState: UIControlState.Normal)
-        cancelButton.setTitleColor(UIColor(red: 0.0, green: 122/255, blue: 1.0, alpha: 1), forState: UIControlState.Normal)
-        cancelButton.widthAnchor.constraintEqualToConstant(datePickerDialogViewWidth / 2).active = true
-        cancelButton.heightAnchor.constraintEqualToConstant(30.0).active = true
+    private func createCancelButton() {
+        cancelButton.backgroundColor = UIColor.white
+        cancelButton.addTarget(self, action: #selector(cancelButtonAction), for: .touchUpInside)
+        cancelButton.setTitle("Cancel", for: UIControlState())
+        cancelButton.setTitleColor(UIColor(red: 0.0, green: 122/255, blue: 1.0, alpha: 1), for: UIControlState())
+        cancelButton.widthAnchor.constraint(equalToConstant: datePickerDialogViewWidth / 2).isActive = true
+        cancelButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
     }
     
-    func createOkButton() {
-        okButton.backgroundColor = UIColor.whiteColor()
-        okButton.setTitle("OK", forState: UIControlState.Normal)
-        okButton.addTarget(self, action: #selector(okButtonAction), forControlEvents: .TouchUpInside)
-        okButton.setTitleColor(UIColor(red: 0.0, green: 122/255, blue: 1.0, alpha: 1), forState: UIControlState.Normal)
-        okButton.widthAnchor.constraintEqualToConstant(datePickerDialogViewWidth / 2).active = true
-        okButton.heightAnchor.constraintEqualToConstant(30.0).active = true
+    private func createOkButton() {
+        okButton.backgroundColor = UIColor.white
+        okButton.setTitle("OK", for: UIControlState())
+        okButton.addTarget(self, action: #selector(okButtonAction), for: .touchUpInside)
+        okButton.setTitleColor(UIColor(red: 0.0, green: 122/255, blue: 1.0, alpha: 1), for: UIControlState())
+        okButton.widthAnchor.constraint(equalToConstant: datePickerDialogViewWidth / 2).isActive = true
+        okButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
     }
     
-    func createStackView() {
-        stackView.backgroundColor = UIColor.whiteColor()
-        stackView.axis = UILayoutConstraintAxis.Horizontal
-        stackView.distribution = UIStackViewDistribution.EqualSpacing
-        stackView.alignment = UIStackViewAlignment.Center
+    private func createStackView() {
+        stackView.backgroundColor = UIColor.white
+        stackView.axis = UILayoutConstraintAxis.horizontal
+        stackView.distribution = UIStackViewDistribution.equalSpacing
+        stackView.alignment = UIStackViewAlignment.center
         stackView.spacing = 0.0
         
         stackView.addArrangedSubview(cancelButton)
@@ -161,10 +168,10 @@ class DatePickerDialogViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         self.datePickerDialogView.addSubview(stackView)
         
-        stackView.heightAnchor.constraintEqualToConstant(30).active = true
-        stackView.leadingAnchor.constraintEqualToAnchor(self.datePickerDialogView.leadingAnchor).active = true
-        stackView.trailingAnchor.constraintEqualToAnchor(self.datePickerDialogView.trailingAnchor).active = true
-        stackView.bottomAnchor.constraintEqualToAnchor(self.datePickerDialogView.bottomAnchor).active = true
+        stackView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        stackView.leadingAnchor.constraint(equalTo: self.datePickerDialogView.leadingAnchor).isActive = true
+        stackView.trailingAnchor.constraint(equalTo: self.datePickerDialogView.trailingAnchor).isActive = true
+        stackView.bottomAnchor.constraint(equalTo: self.datePickerDialogView.bottomAnchor).isActive = true
     }
     
 }
